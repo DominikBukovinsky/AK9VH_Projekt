@@ -1,12 +1,12 @@
-# Mega Hra 
+# Jump Frogging
 
-> Tato hra všem vytře zrak. :) 
+> Tato hra je inspirovaná Jump Kingem. Je úžasná.
 
 ## 🎮 O Hře
 
-Tento projekt byl vytvořen jako součást předmětu **[Název Předmětu]** na **[Název Školy/Univerzity]**.
+Tento projekt byl vytvořen jako součást předmětu vývoj počítačových her na UTB ve Zlíně.
 
-Cílem hry je **[Popis primárního cíle hry, např. dokončit 5 úrovní, dosáhnout nejvyššího skóre, porazit bosse]**.
+Cílem hry je vyskákat jako žába ze studny.
 
 ### Klíčové Vlastnosti
 
