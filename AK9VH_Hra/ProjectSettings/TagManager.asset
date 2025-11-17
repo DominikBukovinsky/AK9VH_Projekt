@@ -8,11 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ice
   - Water
   - UI
-  - 
-  - 
+  - Walls
+  - Bounce
   - Ground
   - 
   - 
