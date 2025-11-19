@@ -31,7 +31,7 @@ public class FrogController : MonoBehaviour
     private Animator anim;
     private float jumpCharge = 0f;
     private bool isCharging = false;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isStandingOnIce; 
     private bool isStandingOnBounce;
     

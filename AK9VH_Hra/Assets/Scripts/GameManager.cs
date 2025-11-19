@@ -1,29 +1,36 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Potřeba pro restart (volitelné)
+using UnityEngine.SceneManagement; 
+using System.Collections; 
 
 public class GameManager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
-    public GameObject player; // Odkaz na žábu pro uložení pozice
+    public GameObject loadingPanel; 
+    public GameObject player; 
+    
+    
+    public GameObject stopkyObjekt; 
 
     private bool isGameActive = false;
     private bool isPaused = false;
 
     void Start()
     {
-        // Zastaví čas a ukáže menu při startu
         Time.timeScale = 0; 
         mainMenuPanel.SetActive(true);
         pauseMenuPanel.SetActive(false);
         
-        LoadPosition(); // Načte pozici, pokud existuje save
+        
+        if(loadingPanel != null) loadingPanel.SetActive(false);
+        if(stopkyObjekt != null) stopkyObjekt.SetActive(false);
+        
+        LoadPosition(); 
     }
 
     void Update()
     {
-        // Řeší ESC pouze pokud už hra začala
         if (isGameActive && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused) ResumeGame();
@@ -31,25 +38,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // --- Funkce pro tlačítka ---
 
     public void StartGame()
     {
-        isGameActive = true;
+        // Misto okamziteho startu, hodi loading screen
+        StartCoroutine(LoadingSequence());
+    }
+
+    IEnumerator LoadingSequence()
+    {
         mainMenuPanel.SetActive(false);
-        Time.timeScale = 1; // Rozběhne hru
+
+        if(loadingPanel != null) loadingPanel.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(4f);
+
+        if(loadingPanel != null) loadingPanel.SetActive(false);
+
+        if(stopkyObjekt != null) stopkyObjekt.SetActive(true);
+
+        isGameActive = true;
+        Time.timeScale = 1; 
     }
 
     public void QuitGame()
     {
-        // Funguje v buildu
         Application.Quit();
-
-        // Funguje v editoru (vypne Play Mode)
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
-
         Debug.Log("Quitting Game...");
     }
 
@@ -57,39 +74,31 @@ public class GameManager : MonoBehaviour
     {
         isPaused = true;
         pauseMenuPanel.SetActive(true);
-        Time.timeScale = 0; // Zmrazí hru
+        Time.timeScale = 0; 
     }
 
     public void ResumeGame()
     {
         isPaused = false;
         pauseMenuPanel.SetActive(false);
-        Time.timeScale = 1; // Obnoví hru
+        Time.timeScale = 1; 
     }
 
     public void SaveAndExit()
     {
-        PlayerPrefs.SetFloat("SaveX", player.transform.position.x);
-        PlayerPrefs.SetFloat("SaveY", player.transform.position.y);
-        PlayerPrefs.SetInt("SaveExists", 1);
-        PlayerPrefs.Save();
-
-        // Funguje v buildu
-        Application.Quit();
-
-        // Funguje v editoru
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-
-        Debug.Log("Saved & Exited");
+        if(player != null)
+        {
+            PlayerPrefs.SetFloat("SaveX", player.transform.position.x);
+            PlayerPrefs.SetFloat("SaveY", player.transform.position.y);
+            PlayerPrefs.SetInt("SaveExists", 1);
+            PlayerPrefs.Save();
+        }
+        QuitGame();
     }
-
-    // --- Interní logika ---
 
     private void LoadPosition()
     {
-        if (PlayerPrefs.HasKey("SaveExists"))
+        if (PlayerPrefs.HasKey("SaveExists") && player != null)
         {
             float x = PlayerPrefs.GetFloat("SaveX");
             float y = PlayerPrefs.GetFloat("SaveY");
