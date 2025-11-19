@@ -28,6 +28,7 @@ public class FrogController : MonoBehaviour
     public float wallKickForceY = 8f; 
 
     private Rigidbody2D rb;
+    private Animator anim;
     private float jumpCharge = 0f;
     private bool isCharging = false;
     private bool isGrounded;
@@ -45,6 +46,7 @@ public class FrogController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -63,6 +65,11 @@ public class FrogController : MonoBehaviour
         isStandingOnBounce = onBounce; 
 
         isWalled = Physics2D.OverlapBox(wallCheck.position, wallCheckSize, 0f, wallLayer);
+
+        if (anim != null)
+        {
+            anim.SetBool("IsGrounded", isGrounded);
+        }
 
         // 3. LOGIKA SKOKU, ODRAZU A BOUNCE
         
