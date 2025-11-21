@@ -94,13 +94,12 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // Rozběhne Timer
     }
 
-    public void SaveAndExit()
+    public void SaveAndExitToMenu()
     {
-        // Uložení Pozice
+        // 1. Uložení
         PlayerPrefs.SetFloat("SaveX", player.transform.position.x);
         PlayerPrefs.SetFloat("SaveY", player.transform.position.y);
         
-        // Uložení Času
         if (stopky != null)
         {
             PlayerPrefs.SetFloat("SaveTime", stopky.ZiskatAktualniCas());
@@ -109,10 +108,17 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("SaveExists", 1);
         PlayerPrefs.Save();
 
-        Application.Quit();
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+        isGameActive = false;
+        isPaused = false;
+
+        pauseMenuPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
+        
+        Time.timeScale = 0;
+
+        CheckContinueButton();
+
+        Debug.Log("Saved & Returned to Menu");
     }
 
     private void LoadGameData()
@@ -127,6 +133,13 @@ public class GameManager : MonoBehaviour
             // Načtení času
             float time = PlayerPrefs.GetFloat("SaveTime", 0f);
             if(stopky != null) stopky.NacistCas(time);
+        }
+    }
+    private void CheckContinueButton()
+    {
+        if (continueButton != null)
+        {
+            continueButton.interactable = PlayerPrefs.HasKey("SaveExists");
         }
     }
 }

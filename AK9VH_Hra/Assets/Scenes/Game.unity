@@ -4770,7 +4770,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1216280266}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SaveAndExit
+        m_MethodName: SaveAndExitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4952,7 +4952,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: Quit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 831cd37eda623f548a5415394340808a, type: 2}
   m_sharedMaterial: {fileID: -8417314793251075719, guid: 831cd37eda623f548a5415394340808a, type: 2}
