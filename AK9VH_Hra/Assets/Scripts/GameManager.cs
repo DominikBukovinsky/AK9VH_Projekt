@@ -1,32 +1,38 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
-using System.Collections; 
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
-    public GameObject loadingPanel; 
-    public GameObject player; 
+    public GameObject player;
+    public Button continueButton;
     
-    
-    public GameObject stopkyObjekt; 
+    [Header("Systems")]
+    public Stopky stopky;
 
     private bool isGameActive = false;
     private bool isPaused = false;
+    private Vector2 startPosition;
 
     void Start()
     {
-        Time.timeScale = 0; 
+        Time.timeScale = 0; // Tím se zastaví i Timer
         mainMenuPanel.SetActive(true);
         pauseMenuPanel.SetActive(false);
-        
-        
-        if(loadingPanel != null) loadingPanel.SetActive(false);
-        if(stopkyObjekt != null) stopkyObjekt.SetActive(false);
-        
-        LoadPosition(); 
+
+        startPosition = player.transform.position;
+
+        if (PlayerPrefs.HasKey("SaveExists"))
+        {
+            continueButton.interactable = true;
+        }
+        else
+        {
+            continueButton.interactable = false;
+        }
     }
 
     void Update()
@@ -38,27 +44,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public void StartGame()
+    public void NewGame()
     {
-        // Misto okamziteho startu, hodi loading screen
-        StartCoroutine(LoadingSequence());
+        PlayerPrefs.DeleteAll();
+
+        // 1. Reset pozice
+        player.transform.position = startPosition;
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        if(rb != null) rb.linearVelocity = Vector2.zero;
+
+        // 2. Reset času
+        if(stopky != null) stopky.ResetCas();
+
+        StartGameLogic();
     }
 
-    IEnumerator LoadingSequence()
+    public void ContinueGame()
     {
-        mainMenuPanel.SetActive(false);
+        LoadGameData();
+        StartGameLogic();
+    }
 
-        if(loadingPanel != null) loadingPanel.SetActive(true);
-
-        yield return new WaitForSecondsRealtime(4f);
-
-        if(loadingPanel != null) loadingPanel.SetActive(false);
-
-        if(stopkyObjekt != null) stopkyObjekt.SetActive(true);
-
+    private void StartGameLogic()
+    {
         isGameActive = true;
-        Time.timeScale = 1; 
+        mainMenuPanel.SetActive(false);
+        Time.timeScale = 1; // Tím se rozběhne Timer
     }
 
     public void QuitGame()
@@ -67,42 +78,55 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
-        Debug.Log("Quitting Game...");
     }
 
     public void PauseGame()
     {
         isPaused = true;
         pauseMenuPanel.SetActive(true);
-        Time.timeScale = 0; 
+        Time.timeScale = 0; // Zastaví Timer
     }
 
     public void ResumeGame()
     {
         isPaused = false;
         pauseMenuPanel.SetActive(false);
-        Time.timeScale = 1; 
+        Time.timeScale = 1; // Rozběhne Timer
     }
 
     public void SaveAndExit()
     {
-        if(player != null)
+        // Uložení Pozice
+        PlayerPrefs.SetFloat("SaveX", player.transform.position.x);
+        PlayerPrefs.SetFloat("SaveY", player.transform.position.y);
+        
+        // Uložení Času
+        if (stopky != null)
         {
-            PlayerPrefs.SetFloat("SaveX", player.transform.position.x);
-            PlayerPrefs.SetFloat("SaveY", player.transform.position.y);
-            PlayerPrefs.SetInt("SaveExists", 1);
-            PlayerPrefs.Save();
+            PlayerPrefs.SetFloat("SaveTime", stopky.ZiskatAktualniCas());
         }
-        QuitGame();
+
+        PlayerPrefs.SetInt("SaveExists", 1);
+        PlayerPrefs.Save();
+
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 
-    private void LoadPosition()
+    private void LoadGameData()
     {
-        if (PlayerPrefs.HasKey("SaveExists") && player != null)
+        if (PlayerPrefs.HasKey("SaveExists"))
         {
+            // Načtení pozice
             float x = PlayerPrefs.GetFloat("SaveX");
             float y = PlayerPrefs.GetFloat("SaveY");
             player.transform.position = new Vector2(x, y);
+
+            // Načtení času
+            float time = PlayerPrefs.GetFloat("SaveTime", 0f);
+            if(stopky != null) stopky.NacistCas(time);
         }
     }
 }
