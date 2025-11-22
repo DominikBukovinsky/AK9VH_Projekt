@@ -1,28 +1,38 @@
-# Jump Frogging
+# 🐸 Jump Frogging
 
-> Tato hra je inspirovaná Jump Kingem. Je úžasná.
+> **"Neodpouštějící plošinovka s jedním skokem."**
+> 
+> Jump Frogging je minimalistická, avšak náročná hra, kde se v roli žáby snažíte jediným způsobem, skákáním, dostat ze dna hluboké studny až ke světlu na povrchu. Hra je inspirována titulem **Jump King**.
 
 ## 🎮 O Hře
 
-Tento projekt byl vytvořen jako součást předmětu vývoj počítačových her na UTB ve Zlíně.
+Tento projekt byl vytvořen jako součást předmětu **Vývoj počítačových her** na **Univerzitě Tomáše Bati (UTB)** ve Zlíně.
 
-Cílem hry je vyskákat jako žába ze studny.
+Cílem hry je vyskákat jako žába ze studny, což je čistá zkouška trpělivosti a přesnosti. Celá hratelnost je soustředěna kolem jediné, neodpouštějící mechaniky **"Nabíjeného skoku"** (Charged Jump).
 
 ### Klíčové Vlastnosti
 
-* [Vlastnost 1, např. Unikátní mechanika skákání]
-* [Vlastnost 2, např. Systém sběru předmětů a bodování]
-* [Vlastnost 3, např. Jednoduchá AI nepřátel]
-* [Vlastnost 4, např. Grafika vytvořená v pixel-art stylu]
+* **Nabíjený Skok:** Unikátní mechanika skákání jedním tlačítkem. Délka držení klávesy určuje přesnou sílu a oblouk skoku. 
+
+
+
+* **Totální Nasazení (No Mid-Air Control):** Jakmile žába opustí zem, hráč nad ní ztrácí veškerou kontrolu. Špatný výpočet znamená pád.
+* **Jeden Obrovský Svět:** Hra se odehrává na jediné, plynulé vertikální mapě (Studna), kde se jediný zmeškaný skok může rovnat katastrofálnímu propadu.
+* **Skóre a Speedrunning:** Volitelné sbírání much na složitějších cestách pro body. Zabudovaný **časovač** otevírá prostor pro speedrunning.
+* **Minimalistický a Trestající Design:** Čistá výzva bez nepřátel a vylepšení, testující pouze trpělivost a přesnost.
+
+---
 
 ## 🛠️ Technologie a Nástroje
 
-Hra byla vyvinuta pomocí následujících technologií:
+Hra byla vyvinuta s cílem funkčního dema splňujícího požadavky semestrálního projektu.
 
-* **Programovací jazyk:** [Např. C#, Python, JavaScript]
-* **Herní Engine/Framework:** [Např. Unity, Godot, Pygame, Phaser]
-* **Vývojové prostředí (IDE):** [Např. Visual Studio Code, JetBrains Rider]
-* **Grafika/Audio:** [Např. Aseprite, Audacity, stažené assety]
+* **Cílová Platforma:** PC
+* **Herní Engine:** **Unity**
+* **Programovací jazyk:** **C#**
+* **Vývojové prostředí (IDE):** Visual Studio
+
+---
 
 ## 🚀 Jak Spustit Hru
 
@@ -30,40 +40,47 @@ Následuj tyto kroky pro spuštění hry na tvém lokálním počítači.
 
 ### Požadavky
 
-* [Např. Nainstalovaný Herní Engine (Unity Hub, Godot)]
-* [Např. .NET Runtime / Python interpret]
+* Instalace **Unity Hubu** a odpovídající verze **Unity Editoru** (doporučujeme zkontrolovat na GitHubu).
 
 ### Instalace
 
 1.  **Klonuj Repozitář:**
     ```bash
-    git clone [https://dspace.cuni.cz/](https://dspace.cuni.cz/)
-    cd [název-projektu-hry]
+    git clone [https://github.com/DominikBukovinsky/AK9VH_Projekt.git](https://github.com/DominikBukovinsky/AK9VH_Projekt.git)
+    cd AK9VH_Projekt/AK9VH_Hra
     ```
 
 2.  **Otevři Projekt:**
-    * **Pro Engine (např. Unity/Godot):** Otevři [Název Engine] a načti složku projektu (`[název-projektu-hry]`).
-    * **Pro Script/Binárku:** [Popis, např. Dvojklikni na soubor `game.exe` nebo `python main.py`]
+    * Otevři **Unity Hub** a klikni na **"Add"**.
+    * Vyber složku `AK9VH_Projekt/AK9VH_Hra`.
+    * Po načtení projektu otevři scénu.
 
 3.  **Spusť Hru:**
-    * Stiskni tlačítko **Play** v Engine nebo spusť soubor.
+    * Stiskni tlačítko **Play** v Unity Editoru.
+
+---
 
 ## 🕹️ Ovládání
 
-| Akce | Klávesa/Tlačítko |
-| :--- | :--- |
-| Pohyb Vlevo | A / Šipka Vlevo |
-| Pohyb Vpravo | D / Šipka Vpravo |
-| Skok | Mezerník |
-| Akce/Útok | [Klávesa, např. LTM - Levé tlačítko myši / E] |
-| Pauza | ESC |
+| Akce | Klávesa/Tlačítko | Poznámky |
+| :--- | :--- | :--- |
+| **Pohyb (příprava)** | A / Šipka Vlevo | Mikropohyb pro přesné zarovnání skoku na plošině. |
+| **Pohyb (příprava)** | D / Šipka Vpravo | Mikropohyb pro přesné zarovnání skoku na plošině. |
+| **Nabíjený Skok** | **MEZERNÍK** | **DRŽ** pro nabití síly, **PUSŤ** pro skok. Ve vzduchu bez kontroly! |
+| **Pauza** | ESC | |
+
+---
 
 ## 🧑‍💻 Autoři
 
-Tento projekt byl vytvořen:
+Tento projekt byl vytvořen týmem studentů **Brňáci** v rámci semestrálního projektu:
 
-* **Jméno a Příjmení** - [@GitHub_uživatel](https://github.com/tvuj-github-profil) / [email@skola.cz]
+* Dominik Bukovínský
+* Matěj Neoral
+* Alexandr Tomeček
+
+---
 
 ## 📝 Licence
 
-Tento projekt je licencován pod [Např. MIT Licence].
+Jelikož se jedná primárně o **školní projekt**, explicitní licence nebyla stanovena. Předpokládá se použití pro nekomerční a studijní účely.

@@ -8,6 +8,11 @@ public class Stopky : MonoBehaviour
 
     void Update()
     {
+        // --- OPRAVA PROTI SPAMU V KONZOLI ---
+        // Pokud kolega zapomněl přiřadit text, skript se tady zastaví a nevyhodí chybu.
+        if (textCasovace == null) return;
+        // ------------------------------------
+
         cas += Time.deltaTime;
 
         float minuty = Mathf.FloorToInt(cas / 60);
@@ -20,7 +25,8 @@ public class Stopky : MonoBehaviour
     public void ResetCas()
     {
         cas = 0f;
-        Update();
+        // I tady pro jistotu kontrola, kdyby to někdo volal manuálně
+        if (textCasovace != null) Update();
     }
 
     public void NacistCas(float ulozenyCas)
